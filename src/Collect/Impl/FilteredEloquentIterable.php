@@ -32,11 +32,13 @@ class FilteredEloquentIterable extends EloquentIterable
 	{
 		$this->iter = $iter;
 		$this->predicate = $predicate;
-
-		$predicate = $this->predicate;
-		$current = $this->iter->current();
-		if (!$predicate($current)) {
-			$this->next();
+		
+		if ($this->iter->valid()) {
+			$predicate = $this->predicate;
+			$current = $this->iter->current();
+			if (!$predicate($current)) {
+				$this->next();
+			}
 		}
 	}
 
@@ -102,6 +104,9 @@ class FilteredEloquentIterable extends EloquentIterable
 	public function rewind()
 	{
 		$this->iter->rewind();
+		if (!$this->iter->valid()) {
+			return;
+		}
 		$predicate = $this->predicate;
 		$current = $this->iter->current();
 		if (!$predicate($current)) {

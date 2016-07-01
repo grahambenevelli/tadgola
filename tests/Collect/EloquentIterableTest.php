@@ -232,6 +232,16 @@ class EloquentIterableTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(3, $counter);
 	}
 
+	public function testFilterEmpty()
+	{
+		$iter = EloquentIterable::wrap([])
+			->filter(function ($annotation) {
+				return $annotation->getAnnotation() == '@var';
+			});
+
+		$this->assertEquals([], $iter->toArray());
+	}
+
 	public function testFilterLotsOfInvalid()
 	{
 		$iter = EloquentIterable::wrap([0, -1, -2, -3, 0, 0, 1, 0, 2, -1, -3, -1, 3, 0])

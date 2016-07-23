@@ -1,5 +1,5 @@
 {
-    "name": "grahambenevelli/tadgola",
+    "name": "grahamsfault/tadgola",
     "autoload": {
         "psr-4": {
             "Tadgola\\": "src/"

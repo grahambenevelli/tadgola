@@ -10,6 +10,7 @@ use Tadgola\Collect\Impl\AppendedEloquentIterable;
 use Tadgola\Collect\Impl\BasicEloquentIterable;
 use Tadgola\Collect\Impl\CyclingEloquentIterable;
 use Tadgola\Collect\Impl\FilteredEloquentIterable;
+use Tadgola\Collect\Impl\ForEachEloquentIterable;
 use Tadgola\Collect\Impl\LimitedEloquentIterator;
 use Tadgola\Collect\Impl\TransformEloquentIterable;
 use Tadgola\Optional\Optional;
@@ -296,5 +297,17 @@ abstract class EloquentIterable implements Iterator
 	public function transform(Closure $transformation)
 	{
 		return new TransformEloquentIterable($this, $transformation);
+	}
+
+	/**
+	 * Execute the given function against everything in the iterable, does not return an iterable
+	 *
+	 * @param Closure $function
+	 */
+	public function each(Closure $function)
+	{
+		foreach ($this as $value) {
+			$function($value);
+		}
 	}
 }

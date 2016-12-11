@@ -429,4 +429,15 @@ class EloquentIterableTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals([2, 3, 4], $iter->toArray());
 	}
+
+	public function testEach()
+	{
+		$total = 0;
+		$func = function($value) use ($total) {
+			$total += $value;
+		};
+
+		$iter = EloquentIterable::wrap([1, 2, 3])
+			->each($func);
+	}
 }

@@ -306,8 +306,8 @@ abstract class EloquentIterable implements Iterator
 	 */
 	public function each(Closure $function)
 	{
-		foreach ($this as $value) {
-			$function($value);
+		foreach ($this as $key => $value) {
+			$function($key, $value);
 		}
 	}
 }

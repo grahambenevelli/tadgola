@@ -1,6 +1,6 @@
 <?php
 
-namespace Tadgola\Optional;
+namespace Tadgola\Collect;
 
 use PHPUnit_Framework_TestCase;
 use Tadgola\Collect\EloquentIterable;
@@ -432,12 +432,39 @@ class EloquentIterableTest extends PHPUnit_Framework_TestCase
 
 	public function testEach()
 	{
-		$total = 0;
-		$func = function($value) use ($total) {
-			$total += $value;
+		$observer = new Observer();
+		$func = function($key, $value) use ($observer) {
+			$observer->keyTotal += $key;
+			$observer->valueTotal += $value;
 		};
 
-		$iter = EloquentIterable::wrap([1, 2, 3])
+		EloquentIterable::wrap([1, 2, 3])
 			->each($func);
+
+		$this->assertEquals(3, $observer->keyTotal);
+		$this->assertEquals(6, $observer->valueTotal);
 	}
+
+	public function testEachKeysSet()
+	{
+		$observer = new Observer();
+		$func = function($key, $value) use ($observer) {
+			$observer->keyTotal += $key;
+			$observer->valueTotal += $value;
+		};
+
+		EloquentIterable::wrap([
+			1 => 10,
+			2 => 10,
+			3 => 10,
+		])->each($func);
+
+		$this->assertEquals(6, $observer->keyTotal);
+		$this->assertEquals(30, $observer->valueTotal);
+	}
+}
+
+class Observer {
+	public $keyTotal = 0;
+	public $valueTotal = 0;
 }

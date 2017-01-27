@@ -462,6 +462,15 @@ class EloquentIterableTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(6, $observer->keyTotal);
 		$this->assertEquals(30, $observer->valueTotal);
 	}
+
+	public function testLimit()
+	{
+		$actual = EloquentIterable::wrap([1, 2, 3, 4, 5])
+			->limit(3)
+			->toArray();
+
+		$this->assertEquals([1, 2, 3], $actual);
+	}
 }
 
 class Observer {

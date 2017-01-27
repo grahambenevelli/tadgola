@@ -49,6 +49,7 @@ class LimitedEloquentIterator extends EloquentIterable
 	public function next()
 	{
 		$this->iter->next();
+		$this->index += 1;
 	}
 
 	/**
